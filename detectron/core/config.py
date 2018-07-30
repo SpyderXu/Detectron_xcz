@@ -189,10 +189,6 @@ __C.TRAIN.FREEZE_CONV_BODY = False
 # output directory
 __C.TRAIN.AUTO_RESUME = True
 
-# Training will copy TRAIN.WEIGHTS and treat it as a candidate checkpoint
-__C.TRAIN.COPY_WEIGHTS = False
-
-# Add StopGrad at a specified stage so the bottom layers are frozen
 __C.TRAIN.FREEZE_AT = 2
 
 
@@ -234,7 +230,7 @@ __C.TEST.MAX_SIZE = 1000
 
 # Overlap threshold used for non-maximum suppression (suppress boxes with
 # IoU >= this threshold)
-__C.TEST.NMS = 0.3
+__C.TEST.NMS = 0.45
 
 # Apply Fast R-CNN style bounding-box regression if True
 __C.TEST.BBOX_REG = True
@@ -293,7 +289,7 @@ __C.TEST.PRECOMPUTED_PROPOSALS = True
 __C.TEST.BBOX_AUG = AttrDict()
 
 # Enable test-time augmentation for bounding box detection if True
-__C.TEST.BBOX_AUG.ENABLED = False
+__C.TEST.BBOX_AUG.ENABLED = True
 
 # Heuristic used to combine predicted box scores
 #   Valid options: ('ID', 'AVG', 'UNION')
@@ -304,7 +300,7 @@ __C.TEST.BBOX_AUG.SCORE_HEUR = b'UNION'
 __C.TEST.BBOX_AUG.COORD_HEUR = b'UNION'
 
 # Horizontal flip at the original scale (id transform)
-__C.TEST.BBOX_AUG.H_FLIP = False
+__C.TEST.BBOX_AUG.H_FLIP = True
 
 # Each scale is the pixel size of an image's shortest side
 __C.TEST.BBOX_AUG.SCALES = ()
@@ -313,7 +309,7 @@ __C.TEST.BBOX_AUG.SCALES = ()
 __C.TEST.BBOX_AUG.MAX_SIZE = 4000
 
 # Horizontal flip at each scale
-__C.TEST.BBOX_AUG.SCALE_H_FLIP = False
+__C.TEST.BBOX_AUG.SCALE_H_FLIP = True
 
 # Apply scaling based on object size
 __C.TEST.BBOX_AUG.SCALE_SIZE_DEP = False
@@ -324,7 +320,7 @@ __C.TEST.BBOX_AUG.AREA_TH_HI = 180**2
 __C.TEST.BBOX_AUG.ASPECT_RATIOS = ()
 
 # Horizontal flip at each aspect ratio
-__C.TEST.BBOX_AUG.ASPECT_RATIO_H_FLIP = False
+__C.TEST.BBOX_AUG.ASPECT_RATIO_H_FLIP = True
 
 # ---------------------------------------------------------------------------- #
 # Test-time augmentations for mask detection
@@ -403,7 +399,7 @@ __C.TEST.KPS_AUG.ASPECT_RATIO_H_FLIP = False
 __C.TEST.SOFT_NMS = AttrDict()
 
 # Use soft NMS instead of standard NMS if set to True
-__C.TEST.SOFT_NMS.ENABLED = False
+__C.TEST.SOFT_NMS.ENABLED = True
 # See soft NMS paper for definition of these options
 __C.TEST.SOFT_NMS.METHOD = b'linear'
 __C.TEST.SOFT_NMS.SIGMA = 0.5
@@ -782,7 +778,7 @@ __C.MRCNN.THRESH_BINARIZE = 0.5
 
 
 # ---------------------------------------------------------------------------- #
-# Keypoint Mask R-CNN options ("KRCNN" = Mask R-CNN with Keypoint support)
+# Keyoint Mask R-CNN options ("KRCNN" = Mask R-CNN with Keypoint support)
 # ---------------------------------------------------------------------------- #
 __C.KRCNN = AttrDict()
 
@@ -972,9 +968,6 @@ __C.EXPECTED_RESULTS = []
 # Absolute and relative tolerance to use when comparing to EXPECTED_RESULTS
 __C.EXPECTED_RESULTS_RTOL = 0.1
 __C.EXPECTED_RESULTS_ATOL = 0.005
-# When the expected value specifies a mean and standard deviation, we check
-# that the actual value is within mean +/- SIGMA_TOL * std
-__C.EXPECTED_RESULTS_SIGMA_TOL = 4
 # Set to send email in case of an EXPECTED_RESULTS failure
 __C.EXPECTED_RESULTS_EMAIL = b''
 
@@ -997,7 +990,7 @@ __C.CLUSTER.ON_CLUSTER = False
 # If an option is removed from the code and you don't want to break existing
 # yaml configs, you can add the full config key as a string to the set below.
 # ---------------------------------------------------------------------------- #
-_DEPRECATED_KEYS = set(
+_DEPCRECATED_KEYS = set(
     {
         'FINAL_MSG',
         'MODEL.DILATION',
@@ -1198,7 +1191,7 @@ def _merge_a_into_b(a, b, stack=None):
 
 
 def _key_is_deprecated(full_key):
-    if full_key in _DEPRECATED_KEYS:
+    if full_key in _DEPCRECATED_KEYS:
         logger.warn(
             'Deprecated config key (ignoring): {}'.format(full_key)
         )
